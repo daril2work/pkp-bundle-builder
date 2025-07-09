@@ -106,28 +106,98 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({
         </div>
 
         {indicator.type === 'score' && indicator.scoreData && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { key: 'score0', label: 'Skor 0', color: 'bg-red-50 border-red-200' },
-              { key: 'score4', label: 'Skor 4', color: 'bg-yellow-50 border-yellow-200' },
-              { key: 'score7', label: 'Skor 7', color: 'bg-blue-50 border-blue-200' },
-              { key: 'score10', label: 'Skor 10', color: 'bg-green-50 border-green-200' }
-            ].map(({ key, label, color }) => (
-              <div key={key} className={`p-3 rounded-lg border ${color}`}>
-                <label className="block text-sm font-medium mb-2">{label}</label>
-                <Textarea
-                  value={indicator.scoreData?.[key as keyof typeof indicator.scoreData] || ''}
-                  onChange={(e) => handleUpdate({
-                    scoreData: {
-                      ...indicator.scoreData!,
-                      [key]: e.target.value
-                    }
-                  })}
-                  className="min-h-[80px] resize-none text-sm"
-                  placeholder={`Keterangan untuk ${label.toLowerCase()}...`}
-                />
-              </div>
-            ))}
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { key: 'score0', label: 'Skor 0', color: 'bg-red-50 border-red-200' },
+                { key: 'score4', label: 'Skor 4', color: 'bg-yellow-50 border-yellow-200' },
+                { key: 'score7', label: 'Skor 7', color: 'bg-blue-50 border-blue-200' },
+                { key: 'score10', label: 'Skor 10', color: 'bg-green-50 border-green-200' }
+              ].map(({ key, label, color }) => (
+                <div key={key} className={`p-3 rounded-lg border ${color}`}>
+                  <label className="block text-sm font-medium mb-2">{label}</label>
+                  <Textarea
+                    value={indicator.scoreData?.[key as keyof typeof indicator.scoreData] || ''}
+                    onChange={(e) => handleUpdate({
+                      scoreData: {
+                        ...indicator.scoreData!,
+                        [key]: e.target.value
+                      }
+                    })}
+                    className="min-h-[80px] resize-none text-sm"
+                    placeholder={`Keterangan untuk ${label.toLowerCase()}...`}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Quarterly Tabs Section for Score Type */}
+            <div className="mt-6">
+              <Tabs defaultValue="q1" className="w-full">
+                <TabsList className="grid w-full grid-cols-4">
+                  <TabsTrigger value="q1">Q1</TabsTrigger>
+                  <TabsTrigger value="q2">Q2</TabsTrigger>
+                  <TabsTrigger value="q3">Q3</TabsTrigger>
+                  <TabsTrigger value="q4">Q4</TabsTrigger>
+                </TabsList>
+                
+                {['q1', 'q2', 'q3', 'q4'].map((quarter, index) => (
+                  <TabsContent key={quarter} value={quarter} className="mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-3">
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                          <h4 className="font-medium text-blue-900 mb-2">Sistem Skor (0-10)</h4>
+                          <p className="text-sm text-blue-800">
+                            Penilaian berdasarkan kriteria skor yang telah ditetapkan
+                          </p>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Skor Aktual
+                          </label>
+                          <Input
+                            type="number"
+                            placeholder="0"
+                            min="0"
+                            max="10"
+                            className="text-sm"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Evaluasi Triwulan {index + 1}
+                          </label>
+                          <Select>
+                            <SelectTrigger className="text-sm">
+                              <SelectValue placeholder="Pilih status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="tercapai">✅ Tercapai</SelectItem>
+                              <SelectItem value="tidak-tercapai">❌ Tidak Tercapai</SelectItem>
+                              <SelectItem value="perlu-perhatian">⚠️ Perlu Perhatian</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            RTL (Rencana Tindak Lanjut)
+                          </label>
+                          <Textarea
+                            placeholder="Rencana tindak lanjut untuk triwulan ini..."
+                            className="min-h-[80px] resize-none text-sm"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </div>
           </div>
         )}
 

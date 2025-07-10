@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,6 +7,7 @@ import { Upload, TrendingUp, Calendar } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { QuarterlyEvaluationTabs } from './QuarterlyEvaluationTabs';
 
 interface MonthlyData {
   month: string;
@@ -246,6 +246,9 @@ export const TargetIndicatorForm: React.FC<TargetIndicatorFormProps> = ({
           </CardContent>
         </Card>
       </div>
+
+      {/* Quarterly Evaluation Tabs */}
+      <QuarterlyEvaluationTabs type="target" />
     </div>
   );
 };

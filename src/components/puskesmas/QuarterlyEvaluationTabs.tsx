@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +11,7 @@ interface QuarterEvaluation {
   quarter: string;
   score: number | null;
   evaluation: string;
+  analysis: string;
   rtl: string;
 }
 
@@ -21,10 +21,10 @@ interface QuarterlyEvaluationTabsProps {
 
 export const QuarterlyEvaluationTabs: React.FC<QuarterlyEvaluationTabsProps> = ({ type }) => {
   const [quarterData, setQuarterData] = useState<Record<string, QuarterEvaluation>>({
-    Q1: { quarter: 'Q1', score: null, evaluation: '', rtl: '' },
-    Q2: { quarter: 'Q2', score: null, evaluation: '', rtl: '' },
-    Q3: { quarter: 'Q3', score: null, evaluation: '', rtl: '' },
-    Q4: { quarter: 'Q4', score: null, evaluation: '', rtl: '' },
+    Q1: { quarter: 'Q1', score: null, evaluation: '', analysis: '', rtl: '' },
+    Q2: { quarter: 'Q2', score: null, evaluation: '', analysis: '', rtl: '' },
+    Q3: { quarter: 'Q3', score: null, evaluation: '', analysis: '', rtl: '' },
+    Q4: { quarter: 'Q4', score: null, evaluation: '', analysis: '', rtl: '' },
   });
 
   const evaluationOptions = [
@@ -129,6 +129,18 @@ export const QuarterlyEvaluationTabs: React.FC<QuarterlyEvaluationTabsProps> = (
                   </div>
                 </div>
                 
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Analisis
+                  </label>
+                  <Textarea
+                    value={quarterData[quarter].analysis}
+                    onChange={(e) => updateQuarterData(quarter, 'analysis', e.target.value)}
+                    placeholder="Analisis pencapaian untuk triwulan ini..."
+                    className="min-h-[80px] focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     RTL (Rencana Tindak Lanjut)

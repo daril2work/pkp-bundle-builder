@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart3, FileText } from "lucide-react";
-import { QuarterlyEvaluationForm } from "./QuarterlyEvaluationForm";
 
 interface QuarterData {
   quarter: string;
@@ -235,12 +234,6 @@ export const ScoreIndicatorForm: React.FC<ScoreIndicatorFormProps> = ({
           </Table>
         </CardContent>
       </Card>
-
-      {/* Quarterly Evaluation */}
-      <QuarterlyEvaluationForm 
-        type="score" 
-        scoreData={quarterData}
-      />
     </div>
   );
 };

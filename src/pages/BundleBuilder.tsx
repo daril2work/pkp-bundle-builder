@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, Eye, Save, Plus, Target } from "lucide-react";
+import { BarChart3, Eye, Save, Plus, Target, Users } from "lucide-react";
 import { ClusterCard } from "@/components/bundle/ClusterCard";
 import { EmptyState } from "@/components/bundle/EmptyState";
 import { toast } from "@/hooks/use-toast";
@@ -73,9 +73,19 @@ const BundleBuilder = () => {
     });
   };
 
+  const handleAssignBundle = () => {
+    toast({
+      title: "Bundle Berhasil Diassign",
+      description: `Bundle ${bundleTitle} telah tersedia untuk semua akun Puskesmas`,
+      duration: 3000,
+    });
+  };
+
   const totalIndicators = clusters.reduce((total, cluster) => 
     total + cluster.indicators.length, 0
   );
+
+  const isBundleComplete = clusters.length > 0 && totalIndicators > 0 && bundleTitle.trim().length > 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -137,6 +147,15 @@ const BundleBuilder = () => {
                 <Save className="h-4 w-4 mr-2" />
                 Simpan Bundle
               </Button>
+              {isBundleComplete && (
+                <Button 
+                  onClick={handleAssignBundle}
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  Assign ke Puskesmas
+                </Button>
+              )}
             </div>
           </div>
           

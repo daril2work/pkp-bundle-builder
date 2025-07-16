@@ -31,20 +31,13 @@ export const QuarterlyTabs: React.FC<QuarterlyTabsProps> = ({ indicator }) => {
     <TabsContent key={quarter} value={quarter} className="mt-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <h4 className="font-medium text-blue-900 mb-2">Sistem Skor (0-10)</h4>
-            <p className="text-sm text-blue-800">
-              Penilaian berdasarkan kriteria skor yang telah ditetapkan
-            </p>
-          </div>
-          
           {/* Monthly Input Fields */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <h5 className="font-medium text-gray-800 mb-3">Input Bulanan - Triwulan {index + 1}</h5>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-3 gap-4">
               {getMonthsForQuarter(index).map((month, monthIndex) => (
-                <div key={month} className="flex items-center gap-3">
-                  <label className="block text-sm font-medium text-gray-700 min-w-[80px]">
+                <div key={month} className="space-y-1">
+                  <label className="block text-sm font-medium text-gray-700 text-center">
                     {month}
                   </label>
                   <Input
@@ -52,11 +45,18 @@ export const QuarterlyTabs: React.FC<QuarterlyTabsProps> = ({ indicator }) => {
                     placeholder="0"
                     min="0"
                     max="10"
-                    className="text-sm flex-1"
+                    className="text-sm"
                   />
                 </div>
               ))}
             </div>
+          </div>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <h4 className="font-medium text-blue-900 mb-2">Sistem Skor (0-10)</h4>
+            <p className="text-sm text-blue-800">
+              Penilaian berdasarkan kriteria skor yang telah ditetapkan
+            </p>
           </div>
 
           <div>
@@ -107,6 +107,25 @@ export const QuarterlyTabs: React.FC<QuarterlyTabsProps> = ({ indicator }) => {
     <TabsContent key={quarter} value={quarter} className="mt-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
+          {/* Monthly Input Fields */}
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <h5 className="font-medium text-gray-800 mb-3">Capaian Bulanan - Triwulan {index + 1}</h5>
+            <div className="grid grid-cols-3 gap-4">
+              {getMonthsForQuarter(index).map((month, monthIndex) => (
+                <div key={month} className="space-y-1">
+                  <label className="block text-sm font-medium text-gray-700 text-center">
+                    {month}
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="0"
+                    className="text-sm"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
             <h4 className="font-medium text-blue-900 mb-2">Target & Perhitungan</h4>
             <p className="text-sm text-blue-800">
@@ -115,25 +134,6 @@ export const QuarterlyTabs: React.FC<QuarterlyTabsProps> = ({ indicator }) => {
             <p className="text-xs text-blue-600 mt-1">
               ({indicator.targetData?.targetPercent}% × {indicator.targetData?.sasaran} ÷ 4)
             </p>
-          </div>
-          
-          {/* Monthly Input Fields */}
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <h5 className="font-medium text-gray-800 mb-3">Capaian Bulanan - Triwulan {index + 1}</h5>
-            <div className="grid grid-cols-1 gap-3">
-              {getMonthsForQuarter(index).map((month, monthIndex) => (
-                <div key={month} className="flex items-center gap-3">
-                  <label className="block text-sm font-medium text-gray-700 min-w-[80px]">
-                    {month}
-                  </label>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    className="text-sm flex-1"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
 
           <div>

@@ -9,6 +9,7 @@ import BundleBuilder from "./pages/BundleBuilder";
 import Puskesmas from "./pages/Puskesmas";
 import Validasi from "./pages/Validasi";
 import Rekap from "./pages/Rekap";
+import Pengaturan from "./pages/Pengaturan";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/layout/Navigation";
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/puskesmas" element={<Puskesmas />} />
             <Route path="/validasi" element={<Validasi />} />
             <Route path="/rekap" element={<Rekap />} />
+            <Route path="/pengaturan" element={<Pengaturan />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

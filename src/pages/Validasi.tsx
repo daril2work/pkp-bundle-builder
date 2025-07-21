@@ -28,6 +28,7 @@ const Validasi = () => {
   const [puskesmasFilter, setPuskesmasFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [yearFilter, setYearFilter] = useState("all");
+  const [quarterFilter, setQuarterFilter] = useState("all");
   const [indicatorFilter, setIndicatorFilter] = useState("all");
   const [openItemId, setOpenItemId] = useState<string | null>(null);
   const [previewIndicator, setPreviewIndicator] = useState<any | null>(null);
@@ -131,6 +132,7 @@ const Validasi = () => {
 
   const puskesmasNames = [...new Set(validationItems.map(item => item.puskesmas))];
   const years = [...new Set(validationItems.map(item => item.quarter.split(" ")[1]))];
+  const quarters = [...new Set(validationItems.map(item => item.quarter.split(" ")[0]))];
   const indicatorNames = [...new Set(validationItems.flatMap(item => item.indicators.map(i => i.name)))];
 
   const filteredItems = validationItems.map(item => ({
@@ -140,8 +142,9 @@ const Validasi = () => {
     const matchesPuskesmas = puskesmasFilter === "all" || item.puskesmas === puskesmasFilter;
     const matchesStatus = statusFilter === "all" || item.status === statusFilter;
     const matchesYear = yearFilter === "all" || item.quarter.endsWith(yearFilter);
+    const matchesQuarter = quarterFilter === "all" || item.quarter.startsWith(quarterFilter);
     const matchesIndicator = indicatorFilter === "all" || item.indicators.some(i => i.name === indicatorFilter);
-    return matchesPuskesmas && matchesStatus && matchesYear && matchesIndicator;
+    return matchesPuskesmas && matchesStatus && matchesYear && matchesQuarter && matchesIndicator;
   });
 
   const handleIndicatorAction = (bundleId: string, indicatorId: string, newStatus: 'approved' | 'revision' | 'rejected') => {
@@ -180,9 +183,6 @@ const Validasi = () => {
         <div className="bg-white shadow-sm border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-r from-green-600 to-blue-600 p-2 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-white" />
-              </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Validasi Data</h1>
                 <p className="text-sm text-gray-600">Validasi dan persetujuan data puskesmas</p>
@@ -231,6 +231,16 @@ const Validasi = () => {
                   <SelectContent>
                     <SelectItem value="all">Semua Tahun</SelectItem>
                     {years.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+                <Select value={quarterFilter} onValueChange={setQuarterFilter}>
+                  <SelectTrigger className="w-full sm:w-48">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Filter Quarter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Semua Quarter</SelectItem>
+                    {quarters.map(q => <SelectItem key={q} value={q}>{q}</SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Select value={indicatorFilter} onValueChange={setIndicatorFilter}>

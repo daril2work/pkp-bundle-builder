@@ -6,7 +6,8 @@ import {
   Building2, 
   CheckCircle, 
   TrendingUp,
-  Home
+ Home,
+ Settings
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -19,7 +20,8 @@ const Navigation = () => {
     { path: "/bundle", label: "Bundle Builder", icon: FileCheck },
     { path: "/puskesmas", label: "Puskesmas", icon: Building2 },
     { path: "/validasi", label: "Validasi", icon: CheckCircle },
-    { path: "/rekap", label: "Rekap", icon: TrendingUp }
+    { path: "/rekap", label: "Rekap", icon: TrendingUp },
+    { path: "/pengaturan", label: "Pengaturan", icon: Settings }
   ];
 
   const isActive = (path: string) => location.pathname === path;

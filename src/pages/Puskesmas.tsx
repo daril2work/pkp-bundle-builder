@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Building2, FileText, Send } from "lucide-react";
 import { PuskesmasIndicatorCard } from "@/components/puskesmas/PuskesmasIndicatorCard";
 import { ClusterCollapsible } from "@/components/puskesmas/ClusterCollapsible";
+import { DashboardSkeleton } from "@/components/puskesmas/DashboardSkeleton";
 
 // Mock data - in real app this would come from API
 const mockBundle = {
@@ -67,12 +68,33 @@ const mockBundle = {
 
 export default function Puskesmas() {
   const [selectedYear, setSelectedYear] = useState("2025");
+  const [selectedQuarter, setSelectedQuarter] = useState("q1");
   const [selectedCluster, setSelectedCluster] = useState("all");
+  const [bundleData, setBundleData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBundleData = async () => {
+      setIsLoading(true);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setBundleData(mockBundle);
+      setIsLoading(false);
+    };
+
+    fetchBundleData();
+  }, [selectedYear]);
   
   const years = ["2024", "2025", "2026"];
+  const quarters = [
+    { id: "q1", name: "Quarter 1" },
+    { id: "q2", name: "Quarter 2" },
+    { id: "q3", name: "Quarter 3" },
+    { id: "q4", name: "Quarter 4" },
+  ];
   const clusters = [
     { id: "all", name: "Semua Klaster" },
-    ...mockBundle.clusters.map(c => ({ id: c.id, name: c.name }))
+    ...(bundleData ? bundleData.clusters.map(c => ({ id: c.id, name: c.name })) : [])
   ];
 
   const getStatusBadge = (status: string) => {
@@ -90,12 +112,20 @@ export default function Puskesmas() {
     }
   };
 
-  const filteredClusters = selectedCluster === "all" 
-    ? mockBundle.clusters 
-    : mockBundle.clusters.filter(c => c.id === selectedCluster);
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
 
-  const totalIndicators = mockBundle.clusters.reduce((sum, cluster) => sum + cluster.indicators.length, 0);
-  const filledIndicators = mockBundle.clusters.reduce((sum, cluster) => 
+  if (!bundleData) {
+    return <div>Error: Data tidak ditemukan.</div>;
+  }
+
+  const filteredClusters = selectedCluster === "all"
+    ? bundleData.clusters
+    : bundleData.clusters.filter(c => c.id === selectedCluster);
+
+  const totalIndicators = bundleData.clusters.reduce((sum, cluster) => sum + cluster.indicators.length, 0);
+  const filledIndicators = bundleData.clusters.reduce((sum, cluster) =>
     sum + cluster.indicators.filter(ind => ind.status === 'filled').length, 0);
 
   return (
@@ -125,6 +155,18 @@ export default function Puskesmas() {
                   ))}
                 </SelectContent>
               </Select>
+
+              <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
+                <SelectTrigger className="w-full sm:w-36">
+                  <CalendarDays className="h-4 w-4" />
+                  <SelectValue placeholder="Quarter" />
+                </SelectTrigger>
+                <SelectContent>
+                  {quarters.map(q => (
+                    <SelectItem key={q.id} value={q.id}>{q.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               
               <Select value={selectedCluster} onValueChange={setSelectedCluster}>
                 <SelectTrigger className="w-full sm:w-48">
@@ -144,7 +186,7 @@ export default function Puskesmas() {
           <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h3 className="font-semibold text-purple-900">{mockBundle.name}</h3>
+                <h3 className="font-semibold text-purple-900">{bundleData.name}</h3>
                 <p className="text-sm text-purple-700">
                   Progress: {filledIndicators} dari {totalIndicators} indikator telah diisi
                 </p>

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { BarChart3, Target, Save, ChevronDown, ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useToast } from "@/components/ui/use-toast";
 import { TargetIndicatorForm } from "./TargetIndicatorForm";
 import { ScoreIndicatorForm } from "./ScoreIndicatorForm";
 
@@ -38,13 +39,18 @@ export const PuskesmasIndicatorCard: React.FC<PuskesmasIndicatorCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
 
   const handleSave = async () => {
     setIsSaving(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     setIsSaving(false);
-    // Show success toast in real implementation
+    toast({
+      title: "Data Tersimpan",
+      description: `Data untuk indikator "${indicator.name}" telah berhasil disimpan.`,
+      variant: "default",
+    });
   };
 
   return (

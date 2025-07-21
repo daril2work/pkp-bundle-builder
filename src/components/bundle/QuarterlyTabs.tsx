@@ -91,6 +91,16 @@ export const QuarterlyTabs: React.FC<QuarterlyTabsProps> = ({ indicator }) => {
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
+              Analisis
+            </label>
+            <Textarea
+              placeholder="Analisis hasil evaluasi triwulan ini..."
+              className="min-h-[80px] resize-none text-sm"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               RTL (Rencana Tindak Lanjut)
             </label>
             <Textarea
@@ -164,6 +174,16 @@ export const QuarterlyTabs: React.FC<QuarterlyTabsProps> = ({ indicator }) => {
                 <SelectItem value="perlu-perhatian">⚠️ Perlu Perhatian</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Analisis
+            </label>
+            <Textarea
+              placeholder="Analisis hasil evaluasi triwulan ini..."
+              className="min-h-[80px] resize-none text-sm"
+            />
           </div>
           
           <div>
